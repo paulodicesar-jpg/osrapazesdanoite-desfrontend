@@ -1,4 +1,3 @@
-
 <div
   class="filtros"
   role="group"
@@ -18,27 +17,25 @@
   <label>
     Filtrar por status
     <select
-      [value]="filtros.statusSelecionado()"
       (change)="filtros.statusSelecionado.set($any($event.target).value)"
     >
-      <option value="">Todos os status</option>
-      <option value="a-fazer">A fazer</option>
-      <option value="em-andamento">Em andamento</option>
-      <option value="em-revisao">Em revisão</option>
-      <option value="concluida">Concluída</option>
+      <option value="" [selected]="filtros.statusSelecionado() === ''">Todos os status</option>
+      <option value="a-fazer" [selected]="filtros.statusSelecionado() === 'a-fazer'">A fazer</option>
+      <option value="em-andamento" [selected]="filtros.statusSelecionado() === 'em-andamento'">Em andamento</option>
+      <option value="em-revisao" [selected]="filtros.statusSelecionado() === 'em-revisao'">Em revisão</option>
+      <option value="concluida" [selected]="filtros.statusSelecionado() === 'concluida'">Concluída</option>
     </select>
   </label>
 
   <label>
     Filtrar por prioridade
     <select
-      [value]="filtros.prioridadeSelecionada()"
       (change)="filtros.prioridadeSelecionada.set($any($event.target).value)"
     >
-      <option value="">Todas as prioridades</option>
-      <option value="baixa">Baixa</option>
-      <option value="media">Média</option>
-      <option value="alta">Alta</option>
+      <option value="" [selected]="filtros.prioridadeSelecionada() === ''">Todas as prioridades</option>
+      <option value="baixa" [selected]="filtros.prioridadeSelecionada() === 'baixa'">Baixa</option>
+      <option value="media" [selected]="filtros.prioridadeSelecionada() === 'media'">Média</option>
+      <option value="alta" [selected]="filtros.prioridadeSelecionada() === 'alta'">Alta</option>
     </select>
   </label>
 
