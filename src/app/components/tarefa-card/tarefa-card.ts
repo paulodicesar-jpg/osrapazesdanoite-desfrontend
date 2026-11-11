@@ -1,4 +1,3 @@
-
 import {
   Component,
   inject,
@@ -43,7 +42,7 @@ export class TarefaCard {
 
   erro = signal<string | null>(null);
 
-  // Status disponíveis
+  // Status disponíveis (Valores exatos para coincidir com o filtro e dados)
   statusDisponiveis: {
     valor: Status;
     rotulo: string;
@@ -88,18 +87,24 @@ export class TarefaCard {
     try {
 
       // Atualiza somente o status da tarefa
-      const tarefaAtualizada =
+      const respostaApi =
         await this.api.atualizarTarefa(
           this.tarefa().id,
           { status: novoStatus }
         );
 
-      // Notifica a página
+      // Garante que enviamos a tarefa completa com o novo status atualizado
+      const tarefaAtualizada: Tarefa = respostaApi ?? {
+        ...this.tarefa(),
+        status: novoStatus
+      };
+
+      // Notifica a página para atualizar os filtros imediatamente
       this.statusAlterado.emit(tarefaAtualizada);
 
     } catch {
 
-      // Restaura o status anterior
+      // Restaura o status anterior no select visual
       seletor.value = this.tarefa().status;
 
       this.erro.set(
@@ -150,6 +155,7 @@ export class TarefaCard {
   }
 
   formatarData(data: string): string {
+    if (!data) return '';
     const [ano, mes, dia] = data.split('-');
     return `${dia}/${mes}/${ano}`;
   }
