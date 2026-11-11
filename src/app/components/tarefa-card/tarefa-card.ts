@@ -42,7 +42,7 @@ export class TarefaCard {
 
   erro = signal<string | null>(null);
 
-  // Status disponíveis (Valores exatos para coincidir com o filtro e dados)
+  // Status disponíveis (valores em slug para compatibilidade com a tipagem Status)
   statusDisponiveis: {
     valor: Status;
     rotulo: string;
@@ -87,24 +87,23 @@ export class TarefaCard {
     try {
 
       // Atualiza somente o status da tarefa
-      const respostaApi =
+      const tarefaAtualizada =
         await this.api.atualizarTarefa(
           this.tarefa().id,
           { status: novoStatus }
         );
 
-      // Garante que enviamos a tarefa completa com o novo status atualizado
-      const tarefaAtualizada: Tarefa = respostaApi ?? {
+      // Notifica a página enviando a tarefa atualizada
+      const tarefaEmitir: Tarefa = tarefaAtualizada ?? {
         ...this.tarefa(),
         status: novoStatus
       };
 
-      // Notifica a página para atualizar os filtros imediatamente
-      this.statusAlterado.emit(tarefaAtualizada);
+      this.statusAlterado.emit(tarefaEmitir);
 
     } catch {
 
-      // Restaura o status anterior no select visual
+      // Restaura o status anterior no seletor visual
       seletor.value = this.tarefa().status;
 
       this.erro.set(

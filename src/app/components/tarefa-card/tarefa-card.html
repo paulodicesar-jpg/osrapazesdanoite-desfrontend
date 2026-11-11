@@ -1,4 +1,3 @@
-
 <article
   class="cartao"
   [class]="'status-' + tarefa().status"
@@ -46,7 +45,6 @@
     Status
 
     <select
-      [value]="tarefa().status"
       [disabled]="salvando() || excluindo()"
       (change)="alterarStatus($any($event.target).value, $any($event.target))"
     >
@@ -55,7 +53,10 @@
         opcao of statusDisponiveis;
         track opcao.valor
       ) {
-        <option [value]="opcao.valor">
+        <option 
+          [value]="opcao.valor"
+          [selected]="opcao.valor === tarefa().status"
+        >
           {{ opcao.rotulo }}
         </option>
       }
